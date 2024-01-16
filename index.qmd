@@ -4,8 +4,8 @@ subtitle: "Going beyond Prem"
 author: "Michael Lydeamore, Nick Tierney, Nick Golding"
 email: "michael.lydeamore@monash.edu"
 department: "Department of Econometrics and Business Statistics"
-unit-url: "https://www.michaellydeamore.com/"
-footer: "ETC5513 Week 5"
+unit-url: "https://slides.michaellydeamore.com/anziam2024"
+footer: "https://slides.michaellydeamore.com/anziam2024"
 format: 
   revealjs:
     logo: images/monash-stacked-blue-rgb-transparent.png
@@ -448,3 +448,110 @@ R0_sweep_finalsize %>%
     ylim(0, NA) +
     geom_hline(yintercept = 0, linetype = "dashed")
 ```
+
+## Why should I use this? It's easy!
+
+Getting a contact matrix is easy:
+
+```{r}
+world_data <- socialmixr::wpp_age()
+population <- age_population(
+    data = world_data,
+    location_col = country,
+    location = "Australia",
+    age_col = lower.age.limit,
+    year_col = year,
+    year = 2015
+)
+
+population
+```
+
+## Why should I use this?
+
+Getting a contact matrix is easy:
+
+
+```{r}
+#| cache: true
+contact_rates <- extrapolate_polymod(
+    population = population,
+    age_breaks = c(seq(0, 100, by = 5), Inf)
+)
+
+print(contact_rates)
+```
+
+## Why should I use this?
+
+```{r}
+contact_rates$home
+```
+
+## Why should I use this? You can use a custom population
+
+
+```{r}
+#| code-line-numbers: "1-6|8-15|17-20"
+flat_population_data <- tibble(
+    country = "flatland",
+    year = 2024,
+    population = 1000,
+    lower.age.limit = seq(0, 75, by=5)
+)
+
+flat_population <- age_population(
+    data = flat_population_data,
+    location_col = country,
+    location = "flatland",
+    age_col = lower.age.limit,
+    year_col = year,
+    year = 2024
+)
+
+flat_contact_rates <- extrapolate_polymod(
+    population = flat_population,
+    age_breaks = c(seq(0, 75, by=5), Inf)
+)
+```
+
+## Why should I use this? You can use a custom population
+
+```{r}
+flat_contact_rates$home
+```
+
+## Conclusion
+
+::: {.incremental}
+
+* Contact matrices are frequently used in infectious diseases modelling
+* Standard Prem et. al matrices are not written for re-use
+* `conmat` provides an interface to easily generate and update models from any data source
+* Can integrate vaccination, calculate next generation matrices, and a handful of other features
+
+:::
+
+::: {.fragment}
+And it's available **right now**
+
+[https://www.github.com/njtierney/conmat](https://www.github.com/njtierney/conmat)
+:::
+
+## Acknowledgements
+
+::: {.columns}
+::: {.column width='50%'}
+#### Telethon Kids Institute
+
+* Nick Tierney
+* Nick Golding
+* Aarathy Babu
+:::
+::: {.column width='50%'}
+
+* SPECTRUM-SPARK Travel Funding
+* Department of Econometrics and Business Statistics, Monash University
+:::
+:::
+
