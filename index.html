@@ -662,6 +662,10 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 </div>
 </div>
 </section>
+<section id="for-a-fixed-r01.5" class="slide level2">
+<h2>For a fixed R0=1.5</h2>
+
+<img data-src="images/index.rmarkdown/unnamed-chunk-8-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
 <section id="why-not-just-use-prem" class="slide level2">
 <h2>Why not just use Prem?</h2>
 <ul>
@@ -673,7 +677,7 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 <section id="why-should-i-use-this-its-easy" class="slide level2">
 <h2>Why should I use this? It’s easy!</h2>
 <p>Getting a contact matrix is easy:</p>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-8_3624e9ad1f5e85d3e6a4f7323a84688f">
+<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-9_4f144df8d0822c28c929497b434964cc">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>world_data <span class="ot">&lt;-</span> socialmixr<span class="sc">::</span><span class="fu">wpp_age</span>()</span>
 <span id="cb6-2"><a href="#cb6-2"></a>population <span class="ot">&lt;-</span> <span class="fu">age_population</span>(</span>
 <span id="cb6-3"><a href="#cb6-3"></a>    <span class="at">data =</span> world_data,</span>
@@ -708,7 +712,7 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 <section id="why-should-i-use-this" class="slide level2">
 <h2>Why should I use this?</h2>
 <p>Getting a contact matrix is easy:</p>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-9_b9b6cdb757f8ea358cca6719cfb2c9e8">
+<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-10_fa4b0863e73bdc55e6ca4e573318bec5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>contact_rates <span class="ot">&lt;-</span> <span class="fu">extrapolate_polymod</span>(</span>
 <span id="cb8-2"><a href="#cb8-2"></a>    <span class="at">population =</span> population,</span>
 <span id="cb8-3"><a href="#cb8-3"></a>    <span class="at">age_breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">5</span>), <span class="cn">Inf</span>)</span>
@@ -719,7 +723,7 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 </section>
 <section id="why-should-i-use-this-1" class="slide level2">
 <h2>Why should I use this?</h2>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-10_cdd3c902d81e659c63fc16dec91cbc6f">
+<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-11_89dfc730e0970e8b82a899660ae61870">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>contact_rates<span class="sc">$</span>home</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 [0,5)       [5,10)      [10,15)      [15,20)      [20,25)
@@ -837,7 +841,7 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 </section>
 <section id="why-should-i-use-this-you-can-use-a-custom-population" class="slide level2">
 <h2>Why should I use this? You can use a custom population</h2>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-11_0ac082ee2be3ed93f0ea14fd745cebd2">
+<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-12_2ca4f7f0e400bdb57505861232bbd2ba">
 <div class="sourceCode cell-code" id="cb11" data-code-line-numbers="1-6|8-15|17-20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>flat_population_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb11-2"><a href="#cb11-2"></a>    <span class="at">country =</span> <span class="st">"flatland"</span>,</span>
 <span id="cb11-3"><a href="#cb11-3"></a>    <span class="at">year =</span> <span class="dv">2024</span>,</span>
@@ -862,7 +866,7 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 </section>
 <section id="why-should-i-use-this-you-can-use-a-custom-population-1" class="slide level2">
 <h2>Why should I use this? You can use a custom population</h2>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-12_ae3b9abfa5d9cb84f8f28e914cec7862">
+<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-13_5781cc1d118196cb3385b47264c7207a">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>flat_contact_rates<span class="sc">$</span>home</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              [0,5)     [5,10)    [10,15)    [15,20)    [20,25)    [25,30)

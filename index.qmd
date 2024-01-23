@@ -497,6 +497,57 @@ R0_sweep_finalsize %>%
 
 :::
 
+## For a fixed R0=1.5
+
+```{r}
+#| echo: false
+
+library(colorspace)
+R0 <- 1.5
+
+self_fit_R0_multiplier <- optimize(f = calculate_R0, interval = c(0.01, 5), transmission_matrices = polymod_transmission_matrix, contact_matrices = polymod_self_fit, R0_target = R0)$minimum
+
+self_fit_contact_matrices <- lapply(polymod_self_fit, `*`, self_fit_R0_multiplier)
+
+prem_R0_multiplier <- optimize(f = calculate_R0, interval = c(0.01, 5), transmission_matrices = polymod_transmission_matrix, contact_matrices = prem_germany_contact_matrices, R0_target = R0)$minimum
+
+prem_contact_matrices <- lapply(prem_germany_contact_matrices, function(m) {
+    m <- m * prem_R0_multiplier
+
+    rownames(m) <- rownames(self_fit_contact_matrices$home)
+    colnames(m) <- rownames(self_fit_contact_matrices$home)
+
+    return(m)
+})
+
+plot_matrix_diff <- function(matrix_1, matrix_2) {
+    
+    combined_diffs <- lapply(seq_along(matrix_1), function(i) {
+        diff_matrix <- matrix_1[[i]] - matrix_2[[i]]
+
+        diff_matrix %>%
+            matrix_to_predictions() %>%
+            mutate(type = names(matrix_1)[i])
+    }) %>% bind_rows()
+
+    combined_diffs %>%
+    filter(type != "all") %>%
+    ggplot(aes(x=age_group_from, y=age_group_to, fill = contacts)) +
+    geom_tile() +
+    coord_fixed() +
+    scale_fill_continuous_diverging(palette = "Blue-Red 3") +
+    facet_wrap(~type) +
+    theme_minimal() +
+    labs(x="Age Group (from)", y="Age Group (to)", fill = "# of contacts") +
+    theme(axis.text.x = element_blank(), axis.text.y=element_blank())
+    
+}
+
+plot_matrix_diff(prem_contact_matrices, self_fit_contact_matrices)
+
+
+```
+
 ## Why not just use Prem?
 
 * There's no ground truth in these projects, making comparisons to a 'ground truth' impossible
