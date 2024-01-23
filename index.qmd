@@ -47,6 +47,7 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(deSolve)
+library(conmat)
 ```
 
 ## <br>[`r rmarkdown::metadata$pagetitle`]{.monash-blue .title} {#etc5513-title background-image="images/bg-01.png"}
@@ -367,8 +368,8 @@ calculate_R0 <- function(multiplier, R0_target, transmission_matrices, contact_m
 * Possibly because of unequal sampling which isn't accounted for in data
 
 ```{r sweep-R0}
-#| cache: true
 #| echo: false
+#| cache: true
 
 polymod_transimssion_rate <- 0.08
 polymod_transmission_matrix <- transmission_probability_matrix(
@@ -428,11 +429,29 @@ R0_sweep_finalsize <- lapply(R0_range, function(R0) {
         filter(value == max(value)) %>%
         pull(value)
 
-    tibble(final_size_data = final_size_data, final_size_model_fit = final_size_model_fit, R0 = R0)
+    prem_R0_multiplier <- optimize(f = calculate_R0, interval = c(0.01, 5), transmission_matrices = polymod_transmission_matrix, contact_matrices = prem_germany_contact_matrices, R0_target = R0)$minimum
+
+    parameters_data$homogeneous_contact <- lapply(prem_germany_contact_matrices, `*`, prem_R0_multiplier)
+    prem_soln <- ode(
+        y = initial_condition,
+        times = times,
+        func = age_structured_sir,
+        parms = parameters_data
+    ) %>%
+        as.data.frame() %>%
+        as_tibble()
+
+    peak_size_prem <- tidy_ode(prem_soln) %>%
+        filter(name == "I") %>%
+        filter(value == max(value)) %>%
+        pull(value)
+
+    tibble(final_size_data = final_size_data, final_size_model_fit = final_size_model_fit, peak_size_prem = peak_size_prem, R0 = R0)
 }) %>% bind_rows()
 
 ```
 
+::: {.r-stack}
 ```{r}
 #| echo: false
 #| fig-height: 2
@@ -448,6 +467,41 @@ R0_sweep_finalsize %>%
     ylim(0, NA) +
     geom_hline(yintercept = 0, linetype = "dashed")
 ```
+
+![](https://media.giphy.com/media/xTiQyBOIQe5cgiyUPS/giphy.gif){fig-align="center" .fragment}
+
+:::
+
+## Difference in peak size compared to Prem {.smaller}
+
+* `conmat` method systematically gives _larger_ epidemics compared to Prem et. al
+* Could be due to different interpretations of parameters or slightly different data sources
+
+::: {.r-stack}
+```{r}
+#| echo: false
+#| fig-height: 2
+#| fig-width: 5
+
+R0_sweep_finalsize %>%
+    mutate(prop_prem = peak_size_prem / sum(initial_condition), prop_fit = final_size_model_fit / sum(initial_condition)) %>%
+    mutate(percentage_difference = (prop_prem - prop_fit) / prop_fit * 100) %>%
+    ggplot(aes(x = R0, y = percentage_difference)) +
+    geom_point() +
+    theme_bw() +
+    labs(x = "R0", y = "Percentage difference \nbetween Prem and conmat") +
+    geom_hline(yintercept = 0, linetype = "dashed")
+```
+
+![](https://media.giphy.com/media/xTiQyBOIQe5cgiyUPS/giphy.gif){fig-align="center" .fragment}
+
+:::
+
+## Why not just use Prem?
+
+* There's no ground truth in these projects, making comparisons to a 'ground truth' impossible
+
+<iframe src="https://chat.openai.com/share/aa44c0a8-11b0-44cf-8f19-4fdd182d451d" style="width:100%; height: 70%;"></iframe>
 
 ## Why should I use this? It's easy!
 
