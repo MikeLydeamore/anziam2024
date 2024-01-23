@@ -1,5 +1,5 @@
 ---
-pagetitle: "`conmat`: Programmtic generation of synthetic contact matrices"
+pagetitle: "conmat: Programmatic generation of synthetic contact matrices"
 subtitle: "Going beyond Prem"
 author: "Michael Lydeamore, Nick Tierney, Nick Golding"
 email: "michael.lydeamore@monash.edu"
@@ -50,7 +50,7 @@ library(deSolve)
 library(conmat)
 ```
 
-## <br>[`r rmarkdown::metadata$pagetitle`]{.monash-blue .title} {#etc5513-title background-image="images/bg-01.png"}
+## <br>[`conmat`: Programmatic generation of synthetic contact matrices]{.monash-blue .title} {#etc5513-title background-image="images/bg-01.png"}
 
 ### `r rmarkdown::metadata$subtitle`
 
