@@ -132,7 +132,7 @@ This model then allows for prediction to settings that are outside the original 
 
 Estimates for 155 countries.
 
-No code.
+There is code, but it is not easily expandable to new settings.
 
 ::: {.fragment}
 If your country isn't in the list of 155: no estimates for you.
@@ -550,9 +550,12 @@ plot_matrix_diff(prem_contact_matrices, self_fit_contact_matrices)
 
 ## Why not just use Prem?
 
-* There's no ground truth in these projects, making comparisons to a 'ground truth' impossible
+* There's no ground truth in these projects, making comparisons to almost impossible
 
+::: {.fragment}
 ![](images/chatgpt.jpg){fig-align="center"}
+:::
+
 
 
 ## Why should I use this? It's easy!
