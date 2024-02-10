@@ -8,7 +8,7 @@
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.340">
+  <meta name="generator" content="quarto-1.4.549">
 
   <meta name="author" content="Michael Lydeamore, Nick Tierney, Nick Golding">
   <title>conmat: Programmatic generation of synthetic contact matrices</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="assets/tachyons-addon.css">
   <link rel="stylesheet" href="assets/custom.css">
   <link rel="stylesheet" href="assets/lecture-01.css">
@@ -226,7 +226,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -452,13 +453,13 @@
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/prem-dir-mats.png"></p>
+<p><img data-src="images/prem-dir-mats.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/prem-spreadsheet.png"></p>
+<p><img data-src="images/prem-spreadsheet.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
@@ -493,10 +494,10 @@
 <section id="an-alternative-approach" class="slide level2">
 <h2>An alternative approach</h2>
 <p>We developed an <em>open-source</em> approach, that can be applied to any input population (big or small).</p>
-<p>You can view the package online: <a href="https://www.github.com/njtierney/conmat">https://www.github.com/njtierney/conmat</a></p>
+<p>You can view the package online: <a href="https://www.github.com/idem-lab/conmat">https://www.github.com/idem-lab/conmat</a></p>
 <p>or install using:</p>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-2_130b57372db4cad9b17d3282d63e6034">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"njtierney/conmat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"idem-lab/conmat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="model-details" class="slide level2">
@@ -506,6 +507,7 @@
 c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) + \beta_4(i+j) +\\ &amp;\beta_5\max(i, j) + \beta_6\min(i, j)
 \end{aligned}
 \]</span></p>
+<div class="fragment">
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -517,6 +519,7 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 <div class="callout-content">
 <p>We want to fit this as a generalised additive model, so <em>actually</em> we have splines on these terms to satisfy the smoothness requirements.</p>
 <p>This is very similar to the approach by Prem et. al who perform post-hoc smoothing of the parameters after MCMC.</p>
+</div>
 </div>
 </div>
 </div>
@@ -535,8 +538,8 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 <ul>
 <li>The <code>socialmixr</code> package has this information for most countries:</li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-3_74a302cf1663a05b79576565006bfc22">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>socialmixr<span class="sc">::</span><span class="fu">wpp_age</span>(<span class="st">"Australia"</span>, <span class="dv">2015</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>socialmixr<span class="sc">::</span><span class="fu">wpp_age</span>(<span class="st">"Australia"</span>, <span class="dv">2015</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     country lower.age.limit year population
 1  Australia               0 2015    1545114
@@ -564,8 +567,8 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 </div>
 </div><div class="column fragment" style="width:50%;">
 <p>And for inside Australia, <code>conmat</code> provides some ABS functions:</p>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-4_73bbc8eb019bf0cdbd28f21e1c85ae43">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>conmat<span class="sc">::</span><span class="fu">abs_age_lga</span>(<span class="st">"Melbourne (C)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>conmat<span class="sc">::</span><span class="fu">abs_age_lga</span>(<span class="st">"Melbourne (C)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 18 × 4 (conmat_population)
  - age: lower.age.limit
@@ -623,18 +626,18 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 <li>Possibly because of unequal sampling which isn’t accounted for in data</li>
 </ul>
 <div class="r-stack">
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-6_bc71e4b1037827f8218ae3383310df3d">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/index.rmarkdown/unnamed-chunk-6-1.png" style="width:100.0%"></p>
+<p><img data-src="images/index.rmarkdown/unnamed-chunk-6-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="https://media.giphy.com/media/xTiQyBOIQe5cgiyUPS/giphy.gif" class="fragment"></p>
+<p><img data-src="https://media.giphy.com/media/xTiQyBOIQe5cgiyUPS/giphy.gif" class="fragment quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
@@ -646,18 +649,18 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 <li>Could be due to different interpretations of parameters or slightly different data sources</li>
 </ul>
 <div class="r-stack">
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-7_3f2dbaffc9de7c1516cab9fdcdfc2c1f">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/index.rmarkdown/unnamed-chunk-7-1.png" style="width:100.0%"></p>
+<p><img data-src="images/index.rmarkdown/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="https://media.giphy.com/media/xTiQyBOIQe5cgiyUPS/giphy.gif" class="fragment"></p>
+<p><img data-src="https://media.giphy.com/media/xTiQyBOIQe5cgiyUPS/giphy.gif" class="fragment quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
@@ -665,7 +668,7 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 <section id="for-a-fixed-r01.5" class="slide level2">
 <h2>For a fixed R0=1.5</h2>
 
-<img data-src="images/index.rmarkdown/unnamed-chunk-8-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
+<img data-src="images/index.rmarkdown/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
 <section id="why-not-just-use-prem" class="slide level2">
 <h2>Why not just use Prem?</h2>
 <ul>
@@ -677,18 +680,18 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 <section id="why-should-i-use-this-its-easy" class="slide level2">
 <h2>Why should I use this? It’s easy!</h2>
 <p>Getting a contact matrix is easy:</p>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-9_4f144df8d0822c28c929497b434964cc">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>world_data <span class="ot">&lt;-</span> socialmixr<span class="sc">::</span><span class="fu">wpp_age</span>()</span>
-<span id="cb6-2"><a href="#cb6-2"></a>population <span class="ot">&lt;-</span> <span class="fu">age_population</span>(</span>
-<span id="cb6-3"><a href="#cb6-3"></a>    <span class="at">data =</span> world_data,</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    <span class="at">location_col =</span> country,</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    <span class="at">location =</span> <span class="st">"Australia"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6"></a>    <span class="at">age_col =</span> lower.age.limit,</span>
-<span id="cb6-7"><a href="#cb6-7"></a>    <span class="at">year_col =</span> year,</span>
-<span id="cb6-8"><a href="#cb6-8"></a>    <span class="at">year =</span> <span class="dv">2015</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a>)</span>
-<span id="cb6-10"><a href="#cb6-10"></a></span>
-<span id="cb6-11"><a href="#cb6-11"></a>population</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>world_data <span class="ot">&lt;-</span> socialmixr<span class="sc">::</span><span class="fu">wpp_age</span>()</span>
+<span id="cb6-2"><a href=""></a>population <span class="ot">&lt;-</span> <span class="fu">age_population</span>(</span>
+<span id="cb6-3"><a href=""></a>    <span class="at">data =</span> world_data,</span>
+<span id="cb6-4"><a href=""></a>    <span class="at">location_col =</span> country,</span>
+<span id="cb6-5"><a href=""></a>    <span class="at">location =</span> <span class="st">"Australia"</span>,</span>
+<span id="cb6-6"><a href=""></a>    <span class="at">age_col =</span> lower.age.limit,</span>
+<span id="cb6-7"><a href=""></a>    <span class="at">year_col =</span> year,</span>
+<span id="cb6-8"><a href=""></a>    <span class="at">year =</span> <span class="dv">2015</span></span>
+<span id="cb6-9"><a href=""></a>)</span>
+<span id="cb6-10"><a href=""></a></span>
+<span id="cb6-11"><a href=""></a>population</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 21 × 5 (conmat_population)
  - age: lower.age.limit
@@ -712,19 +715,19 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 <section id="why-should-i-use-this" class="slide level2">
 <h2>Why should I use this?</h2>
 <p>Getting a contact matrix is easy:</p>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-10_fa4b0863e73bdc55e6ca4e573318bec5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>contact_rates <span class="ot">&lt;-</span> <span class="fu">extrapolate_polymod</span>(</span>
-<span id="cb8-2"><a href="#cb8-2"></a>    <span class="at">population =</span> population,</span>
-<span id="cb8-3"><a href="#cb8-3"></a>    <span class="at">age_breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">5</span>), <span class="cn">Inf</span>)</span>
-<span id="cb8-4"><a href="#cb8-4"></a>)</span>
-<span id="cb8-5"><a href="#cb8-5"></a></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="fu">print</span>(contact_rates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>contact_rates <span class="ot">&lt;-</span> <span class="fu">extrapolate_polymod</span>(</span>
+<span id="cb8-2"><a href=""></a>    <span class="at">population =</span> population,</span>
+<span id="cb8-3"><a href=""></a>    <span class="at">age_breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">5</span>), <span class="cn">Inf</span>)</span>
+<span id="cb8-4"><a href=""></a>)</span>
+<span id="cb8-5"><a href=""></a></span>
+<span id="cb8-6"><a href=""></a><span class="fu">print</span>(contact_rates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="why-should-i-use-this-1" class="slide level2">
 <h2>Why should I use this?</h2>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-11_89dfc730e0970e8b82a899660ae61870">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>contact_rates<span class="sc">$</span>home</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>contact_rates<span class="sc">$</span>home</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 [0,5)       [5,10)      [10,15)      [15,20)      [20,25)
 [0,5)     5.802591e-01 4.813549e-01 2.402471e-01 1.620169e-01 2.321232e-01
@@ -841,33 +844,33 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 </section>
 <section id="why-should-i-use-this-you-can-use-a-custom-population" class="slide level2">
 <h2>Why should I use this? You can use a custom population</h2>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-12_2ca4f7f0e400bdb57505861232bbd2ba">
-<div class="sourceCode cell-code" id="cb11" data-code-line-numbers="1-6|8-15|17-20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>flat_population_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb11-2"><a href="#cb11-2"></a>    <span class="at">country =</span> <span class="st">"flatland"</span>,</span>
-<span id="cb11-3"><a href="#cb11-3"></a>    <span class="at">year =</span> <span class="dv">2024</span>,</span>
-<span id="cb11-4"><a href="#cb11-4"></a>    <span class="at">population =</span> <span class="dv">1000</span>,</span>
-<span id="cb11-5"><a href="#cb11-5"></a>    <span class="at">lower.age.limit =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">75</span>, <span class="at">by=</span><span class="dv">5</span>)</span>
-<span id="cb11-6"><a href="#cb11-6"></a>)</span>
-<span id="cb11-7"><a href="#cb11-7"></a></span>
-<span id="cb11-8"><a href="#cb11-8"></a>flat_population <span class="ot">&lt;-</span> <span class="fu">age_population</span>(</span>
-<span id="cb11-9"><a href="#cb11-9"></a>    <span class="at">data =</span> flat_population_data,</span>
-<span id="cb11-10"><a href="#cb11-10"></a>    <span class="at">location_col =</span> country,</span>
-<span id="cb11-11"><a href="#cb11-11"></a>    <span class="at">location =</span> <span class="st">"flatland"</span>,</span>
-<span id="cb11-12"><a href="#cb11-12"></a>    <span class="at">age_col =</span> lower.age.limit,</span>
-<span id="cb11-13"><a href="#cb11-13"></a>    <span class="at">year_col =</span> year,</span>
-<span id="cb11-14"><a href="#cb11-14"></a>    <span class="at">year =</span> <span class="dv">2024</span></span>
-<span id="cb11-15"><a href="#cb11-15"></a>)</span>
-<span id="cb11-16"><a href="#cb11-16"></a></span>
-<span id="cb11-17"><a href="#cb11-17"></a>flat_contact_rates <span class="ot">&lt;-</span> <span class="fu">extrapolate_polymod</span>(</span>
-<span id="cb11-18"><a href="#cb11-18"></a>    <span class="at">population =</span> flat_population,</span>
-<span id="cb11-19"><a href="#cb11-19"></a>    <span class="at">age_breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">75</span>, <span class="at">by=</span><span class="dv">5</span>), <span class="cn">Inf</span>)</span>
-<span id="cb11-20"><a href="#cb11-20"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11" data-code-line-numbers="1-6|8-15|17-20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>flat_population_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb11-2"><a href=""></a>    <span class="at">country =</span> <span class="st">"flatland"</span>,</span>
+<span id="cb11-3"><a href=""></a>    <span class="at">year =</span> <span class="dv">2024</span>,</span>
+<span id="cb11-4"><a href=""></a>    <span class="at">population =</span> <span class="dv">1000</span>,</span>
+<span id="cb11-5"><a href=""></a>    <span class="at">lower.age.limit =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">75</span>, <span class="at">by=</span><span class="dv">5</span>)</span>
+<span id="cb11-6"><a href=""></a>)</span>
+<span id="cb11-7"><a href=""></a></span>
+<span id="cb11-8"><a href=""></a>flat_population <span class="ot">&lt;-</span> <span class="fu">age_population</span>(</span>
+<span id="cb11-9"><a href=""></a>    <span class="at">data =</span> flat_population_data,</span>
+<span id="cb11-10"><a href=""></a>    <span class="at">location_col =</span> country,</span>
+<span id="cb11-11"><a href=""></a>    <span class="at">location =</span> <span class="st">"flatland"</span>,</span>
+<span id="cb11-12"><a href=""></a>    <span class="at">age_col =</span> lower.age.limit,</span>
+<span id="cb11-13"><a href=""></a>    <span class="at">year_col =</span> year,</span>
+<span id="cb11-14"><a href=""></a>    <span class="at">year =</span> <span class="dv">2024</span></span>
+<span id="cb11-15"><a href=""></a>)</span>
+<span id="cb11-16"><a href=""></a></span>
+<span id="cb11-17"><a href=""></a>flat_contact_rates <span class="ot">&lt;-</span> <span class="fu">extrapolate_polymod</span>(</span>
+<span id="cb11-18"><a href=""></a>    <span class="at">population =</span> flat_population,</span>
+<span id="cb11-19"><a href=""></a>    <span class="at">age_breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">75</span>, <span class="at">by=</span><span class="dv">5</span>), <span class="cn">Inf</span>)</span>
+<span id="cb11-20"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="why-should-i-use-this-you-can-use-a-custom-population-1" class="slide level2">
 <h2>Why should I use this? You can use a custom population</h2>
-<div class="cell" data-layout-align="center" data-hash="cache/unnamed-chunk-13_5781cc1d118196cb3385b47264c7207a">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>flat_contact_rates<span class="sc">$</span>home</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>flat_contact_rates<span class="sc">$</span>home</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              [0,5)     [5,10)    [10,15)    [15,20)    [20,25)    [25,30)
 [0,5)    0.56828986 0.47107930 0.23528412 0.15828319 0.22562515 0.42964988
@@ -935,7 +938,7 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 </div>
 <div class="fragment">
 <p>And it’s available <strong>right now</strong></p>
-<p><a href="https://www.github.com/njtierney/conmat">https://www.github.com/njtierney/conmat</a></p>
+<p><a href="https://www.github.com/idem-lab/conmat">https://www.github.com/idem-lab/conmat</a></p>
 </div>
 </section>
 <section id="acknowledgements" class="slide level2">
@@ -955,9 +958,11 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
 </ul>
 </div>
 </div>
-
-<img src="images/monash-stacked-blue-rgb-transparent.png" class="slide-logo r-stretch"><div class="footer footer-default">
+<div class="quarto-auto-generated-content">
+<p><img src="images/monash-stacked-blue-rgb-transparent.png" class="slide-logo"></p>
+<div class="footer footer-default">
 <p>https://slides.michaellydeamore.com/anziam2024</p>
+</div>
 </div>
 </section>
     </div>
@@ -987,7 +992,6 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
       Reveal.initialize({
 'controlsAuto': false,
 'previewLinksAuto': false,
-'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1291,10 +1295,9 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -1304,8 +1307,17 @@ c_{ij} = \beta_0 + \beta_1(|i-j|) + &amp;\beta_2(|i-j|^2) + \beta_3(i\times j) +
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

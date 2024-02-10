@@ -155,14 +155,14 @@ There are other more technical concerns with components of the model that probab
 
 We developed an *open-source* approach, that can be applied to any input population (big or small).
 
-You can view the package online: [https://www.github.com/njtierney/conmat](https://www.github.com/njtierney/conmat)
+You can view the package online: [https://www.github.com/idem-lab/conmat](https://www.github.com/idem-lab/conmat)
 
 or install using:
 
 ```{r}
 #| eval: false
 
-remotes::install_github("njtierney/conmat")
+remotes::install_github("idem-lab/conmat")
 ```
 
 ## Model details
@@ -640,7 +640,7 @@ flat_contact_rates$home
 ::: {.fragment}
 And it's available **right now**
 
-[https://www.github.com/njtierney/conmat](https://www.github.com/njtierney/conmat)
+[https://www.github.com/idem-lab/conmat](https://www.github.com/idem-lab/conmat)
 :::
 
 ## Acknowledgements
